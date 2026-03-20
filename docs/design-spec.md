@@ -251,22 +251,3 @@ When you ask an AI to generate UI from this design spec, include:
 You can phrase a prompt like:
 
 “Generate Next.js + Tailwind UI using this design spec.”
-
-🧠 Next Steps
-
-If everything looks good, we’ll:
-
-Draft the Tech Spec v1
-➡️ Which will list:
-
-Frontend frameworks
-
-Backend APIs
-
-Database schema
-
-Auth flow
-
-Environment variables
-
-Deployment steps

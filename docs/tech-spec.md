@@ -11,7 +11,7 @@ Next.js (frontend + API routes)
 
 Supabase (database + authentication)
 
-OpenAI API (resume generation)
+Google Gemini API (resume generation)
 
 Vercel (deployment)
 
@@ -53,7 +53,7 @@ Handle AI resume generation request
 
 Validate user input
 
-Securely call OpenAI API
+Securely call Google Gemini API
 
 Save generated resume to database
 
@@ -120,7 +120,7 @@ Row-Level Security enabled in Supabase
 
 Provider:
 
-OpenAI API
+Google Gemini API
 
 Model:
 
@@ -132,7 +132,7 @@ User submits resume form
 
 Backend constructs structured prompt
 
-API route sends request to OpenAI
+API route sends request to Google Gemini API
 
 Receives formatted resume text
 
@@ -189,7 +189,7 @@ Deploy
 
 🔟 Security Considerations
 
-Never expose OpenAI API key in frontend
+Never expose Google Gemini API key in frontend
 
 Use server-side API route for AI calls
 
