@@ -116,7 +116,7 @@ export default async function ResumeDetailPage({ params }: PageProps) {
 
           <div className="space-y-8 pt-8">
             {sections.length > 0 ? (
-              sections.map((block, index) => (
+              sections.map((block: string, index: number) => (
                 <ResumeBlock key={index} block={block} />
               ))
             ) : (
