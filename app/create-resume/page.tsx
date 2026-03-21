@@ -207,9 +207,9 @@ export default function CreateResumePage() {
             <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
               Generated resume
             </h2>
-            <pre className="mt-4 whitespace-pre-wrap font-sans text-[15px] leading-7 text-zinc-800">
+            <div className="mt-4 whitespace-pre-line text-[15px] leading-relaxed text-zinc-900">
               {resumeText}
-            </pre>
+            </div>
           </section>
         ) : null}
       </section>
