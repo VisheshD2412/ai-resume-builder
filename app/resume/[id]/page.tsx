@@ -81,7 +81,7 @@ export default async function ResumeDetailPage({ params }: PageProps) {
   }
 
   const resumeBody = data.generated_resume ?? "";
-  const sections = resumeBody.split(/\n\n+/).filter((block) => block.trim());
+  const sections = resumeBody.split(/\n\n+/).filter((block: string) => block.trim());
 
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-10">
