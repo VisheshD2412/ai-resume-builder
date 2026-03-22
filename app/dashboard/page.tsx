@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { createSupabaseClient } from "@/lib/supabase";
 
 type ResumeRow = {
@@ -19,25 +22,52 @@ function formatCreatedAt(iso: string) {
   }
 }
 
-export default async function DashboardPage() {
-  let resumes: ResumeRow[] = [];
-  let loadError: string | null = null;
+export default function DashboardPage() {
+  const [resumes, setResumes] = useState<ResumeRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  try {
-    const supabase = createSupabaseClient();
-    const { data, error } = await supabase
-      .from("resumes")
-      .select("id, full_name, target_role, created_at")
-      .order("created_at", { ascending: false });
+  useEffect(() => {
+    let cancelled = false;
 
-    if (error) {
-      loadError = error.message;
-    } else {
-      resumes = (data ?? []) as ResumeRow[];
+    async function load() {
+      try {
+        const supabase = createSupabaseClient();
+        const { data, error } = await supabase
+          .from("resumes")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (cancelled) return;
+
+        if (error) {
+          console.error("Dashboard fetch error:", error);
+          setLoadError(error.message);
+          setResumes([]);
+        } else {
+          setLoadError(null);
+          setResumes((data ?? []) as ResumeRow[]);
+        }
+      } catch (e) {
+        if (cancelled) return;
+        console.error("Dashboard fetch error:", e);
+        setLoadError(
+          e instanceof Error ? e.message : "Could not load resumes.",
+        );
+        setResumes([]);
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
     }
-  } catch (e) {
-    loadError = e instanceof Error ? e.message : "Could not load resumes.";
-  }
+
+    void load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col px-6 py-12 sm:py-16">
@@ -69,7 +99,15 @@ export default async function DashboardPage() {
       ) : null}
 
       <section className="mt-10">
-        {!loadError && resumes.length === 0 ? (
+        {loading ? (
+          <div className="rounded-2xl border border-zinc-200/90 bg-white p-8 text-center shadow-md shadow-zinc-900/5">
+            <p className="text-base font-medium text-zinc-600">
+              Loading resumes…
+            </p>
+          </div>
+        ) : null}
+
+        {!loading && !loadError && resumes.length === 0 ? (
           <div className="rounded-2xl border border-zinc-200/90 bg-white p-8 text-center shadow-md shadow-zinc-900/5">
             <p className="text-base font-medium text-zinc-900">No resumes yet</p>
             <p className="mt-2 text-sm text-zinc-500">
@@ -78,7 +116,7 @@ export default async function DashboardPage() {
           </div>
         ) : null}
 
-        {!loadError && resumes.length > 0 ? (
+        {!loading && !loadError && resumes.length > 0 ? (
           <ul className="space-y-4">
             {resumes.map((row) => (
               <li
