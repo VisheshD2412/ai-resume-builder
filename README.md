@@ -12,7 +12,7 @@ AI Resume Builder is a full-stack web application that helps students, fresh gra
 
 ## ✨ Demo
 
-> https://vercel.com/visheshd2412s-projects/ai-resume-builder-v3/2TCycNJwLXsd2os6CnQBiZdumrQ9
+> https://ai-resume-builder-v2-pzd8dovyo-visheshd2412s-projects.vercel.app/
 
 ```
 https://your-app.vercel.app
